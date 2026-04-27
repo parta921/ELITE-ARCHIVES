@@ -102,7 +102,7 @@
     <div class="fish" style="top:70%; animation: swim-right 40s linear infinite;">🦑</div>
 
     <audio id="bgm" loop>
-        <source src="https://www.bensound.com/bensound-music/bensound-buddy.mp3" type="audio/mpeg">
+        <source src="https://files.catbox.moe/kbe70o.mp3" type="audio/mpeg">
     </audio>
 
     <div id="music-container" onclick="toggleMusic()">
@@ -154,27 +154,20 @@
         <div class="modal-content" onclick="event.stopPropagation()">
             <img id="m-img" src="" style="width:100%; border:3px solid black; margin-bottom:15px;">
             <h2 id="m-title" style="font-family:var(--font-pixel); font-size:2rem; color:var(--coral);"></h2>
-            
-            <div id="m-details" class="detail-line">
-                <p id="m-birth-row"><strong>Lahir:</strong> <span id="m-birth"></span></p>
-                <p id="m-dream-row"><strong>Cita-cita:</strong> <span id="m-dream"></span></p>
+            <div id="m-detail-box" class="detail-line">
+                <div id="m-info-personal">
+                    <p><strong>Lahir:</strong> <span id="m-birth"></span></p>
+                    <p><strong>Cita-cita:</strong> <span id="m-dream"></span></p>
+                </div>
                 <div style="margin-top:10px; padding:10px; background:rgba(0,0,0,0.05); border-left:4px solid var(--coral); font-style:italic;">
                     "<span id="m-quote"></span>"
                 </div>
             </div>
-
             <button onclick="closeZoom()" style="width:100%; margin-top:20px; background:black; color:white; padding:10px; border:none; cursor:pointer; font-family:var(--font-pixel);">[ KEMBALI ]</button>
         </div>
     </div>
 
     <script>
-        const waliKelas = {
-            name: "OK Yudistira Wibawa Prasetya",
-            birth: "22 Juni 1998",
-            dream: "Guru",
-            quote: "Jika tidak bisa taat, jangan bunuh iman mu dengan maksiat"
-        };
-
         const studentData = [
             { name: "Adam Natha Utama Sembiring", birth: "12 Desember 2010", dream: "Engineering", quote: "Jika hidupmu hanya mengikuti arus..." },
             { name: "Amira Raisyah Putri", birth: "27 Februari 2011", dream: "Business Woman", quote: "Trust your journey..." },
@@ -209,45 +202,87 @@
         ];
 
         // RENDER WALI KELAS
-        const wkContainer = document.getElementById('walikelas-container');
-        wkContainer.innerHTML = `
-            <div class="scrap-card" style="max-width:500px; margin: 0 auto 50px; background:var(--sand);" onclick="openWalikelas()">
-                <div class="tape-deco" style="background:var(--coral); opacity:0.8;"></div>
+        document.getElementById('walikelas-container').innerHTML = `
+            <div class="scrap-card" style="max-width:500px; margin: 0 auto 50px;" onclick="openWk()">
+                <div class="tape-deco" style="background:var(--coral);"></div>
                 <div style="display:flex; gap:20px; align-items:center;">
-                    <div style="width:100px; height:100px; border:2px solid black; overflow:hidden;">
-                        <img src="0.jpg" style="width:100%; height:100%; object-fit:cover;">
-                    </div>
-                    <div>
-                        <h2 style="font-family:var(--font-pixel); font-size:1.8rem; color:black;">WALI KELAS</h2>
-                        <p style="color:black;">${waliKelas.name}</p>
-                    </div>
+                    <img src="0.jpg" style="width:80px; height:80px; border:2px solid black; object-fit:cover;">
+                    <div><h2 style="font-family:var(--font-pixel);">WALI KELAS</h2><p>OK Yudistira Wibawa P.</p></div>
                 </div>
             </div>`;
 
         // RENDER PROFILES
         const pGrid = document.getElementById('profile-grid');
         studentData.forEach((s, i) => {
-            let num = i + 1;
             let rot = Math.floor(Math.random() * 6) - 3;
             pGrid.innerHTML += `
-                <div class="scrap-card profile-item" data-name="${s.name.toLowerCase()}" style="transform: rotate(${rot}deg)" onclick="openProfile(${i}, '${num}.jpg')">
+                <div class="scrap-card profile-item" data-name="${s.name.toLowerCase()}" style="transform: rotate(${rot}deg)" onclick="openStudent(${i})">
                     <div class="tape-deco"></div>
-                    <div class="card-frame">
-                        <img src="${num}.jpg" loading="lazy">
-                    </div>
-                    <p style="font-size:0.9rem; font-weight:bold; font-family:var(--font-pixel);">${s.name}</p>
+                    <div class="card-frame"><img src="${i+1}.jpg" loading="lazy"></div>
+                    <p style="font-family:var(--font-pixel); font-size:0.9rem;">${s.name}</p>
                 </div>`;
         });
 
-        // RENDER MOMENTS (Menyembunyikan Detail Lahir & Cita-Cita)
+        // RENDER MOMENTS
         const mGrid = document.getElementById('moment-grid');
         for(let i=1; i<=57; i++) {
             let rot = Math.floor(Math.random() * 10) - 5;
-            let imgName = `moment${i}.jpeg`;
             mGrid.innerHTML += `
-                <div class="scrap-card" style="transform: rotate(${rot}deg)" onclick="showModal('${imgName}', 'KENANGAN ELITE', '', '', 'SNAPSHOT #${i}')">
+                <div class="scrap-card" style="transform: rotate(${rot}deg)" onclick="openMoment('moment${i}.jpeg', ${i})">
                     <div class="tape-deco"></div>
-                    <div class="card-frame">
-                        <img src="${imgName}" loading="lazy">
-                    </div>
-                    <p style="text-align:
+                    <div class="card-frame"><img src="moment${i}.jpeg" loading="lazy"></div>
+                    <p style="text-align:right; font-family:var(--font-pixel);">SNAP_${i}</p>
+                </div>`;
+        }
+
+        // NAVIGATION
+        function showPage(id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active-tab'));
+            document.getElementById('tab' + id.charAt(0).toUpperCase() + id.slice(1)).classList.add('active-tab');
+            window.scrollTo(0,0);
+        }
+
+        // MODAL FUNCTIONS
+        function openWk() {
+            setupModal('0.jpg', 'OK Yudistira Wibawa P.', '22 Juni 1998', 'Guru', 'Jika tidak bisa taat, jangan bunuh iman mu dengan maksiat', true);
+        }
+        function openStudent(idx) {
+            const s = studentData[idx];
+            setupModal((idx+1)+'.jpg', s.name, s.birth, s.dream, s.quote, true);
+        }
+        function openMoment(img, num) {
+            setupModal(img, 'KENANGAN ELITE', '', '', 'SNAPSHOT #' + num, false);
+        }
+
+        function setupModal(img, title, birth, dream, quote, showInfo) {
+            document.getElementById('m-img').src = img;
+            document.getElementById('m-title').innerText = title;
+            document.getElementById('m-birth').innerText = birth;
+            document.getElementById('m-dream').innerText = dream;
+            document.getElementById('m-quote').innerText = quote;
+            document.getElementById('m-info-personal').style.display = showInfo ? "block" : "none";
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        function closeZoom() { document.getElementById('modal').style.display = 'none'; }
+
+        // AUDIO
+        function toggleMusic() {
+            const audio = document.getElementById('bgm');
+            const icon = document.getElementById('music-icon');
+            const text = document.getElementById('music-text');
+            if(audio.paused) { audio.play(); icon.innerText = "🎸"; text.innerText = "AUDIO: ON"; }
+            else { audio.pause(); icon.innerText = "🔇"; text.innerText = "AUDIO: OFF"; }
+        }
+
+        function filterProfiles() {
+            let input = document.getElementById('searchBar').value.toLowerCase();
+            document.querySelectorAll('.profile-item').forEach(item => {
+                item.style.display = item.getAttribute('data-name').includes(input) ? "block" : "none";
+            });
+        }
+    </script>
+</body>
+</html>
