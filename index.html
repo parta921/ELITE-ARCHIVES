@@ -102,7 +102,7 @@
     <div class="fish" style="top:70%; animation: swim-right 40s linear infinite;">🦑</div>
 
     <audio id="bgm" loop>
-        <source src="https://files.catbox.moe/kbe70o.mp3" type="audio/mpeg">
+        <source src="https://www.bensound.com/bensound-music/bensound-buddy.mp3" type="audio/mpeg">
     </audio>
 
     <div id="music-container" onclick="toggleMusic()">
@@ -154,13 +154,15 @@
         <div class="modal-content" onclick="event.stopPropagation()">
             <img id="m-img" src="" style="width:100%; border:3px solid black; margin-bottom:15px;">
             <h2 id="m-title" style="font-family:var(--font-pixel); font-size:2rem; color:var(--coral);"></h2>
-            <div class="detail-line">
-                <p><strong>Lahir:</strong> <span id="m-birth"></span></p>
-                <p><strong>Cita-cita:</strong> <span id="m-dream"></span></p>
+            
+            <div id="m-details" class="detail-line">
+                <p id="m-birth-row"><strong>Lahir:</strong> <span id="m-birth"></span></p>
+                <p id="m-dream-row"><strong>Cita-cita:</strong> <span id="m-dream"></span></p>
                 <div style="margin-top:10px; padding:10px; background:rgba(0,0,0,0.05); border-left:4px solid var(--coral); font-style:italic;">
                     "<span id="m-quote"></span>"
                 </div>
             </div>
+
             <button onclick="closeZoom()" style="width:100%; margin-top:20px; background:black; color:white; padding:10px; border:none; cursor:pointer; font-family:var(--font-pixel);">[ KEMBALI ]</button>
         </div>
     </div>
@@ -206,14 +208,14 @@
             { name: "Zayyan Kaisan Musdan", birth: "5 Mei 2011", dream: "Perkantoran", quote: "Jika ingin dihargai..." }
         ];
 
-        // RENDER WALI KELAS (Menggunakan 0.jpg)
+        // RENDER WALI KELAS
         const wkContainer = document.getElementById('walikelas-container');
         wkContainer.innerHTML = `
             <div class="scrap-card" style="max-width:500px; margin: 0 auto 50px; background:var(--sand);" onclick="openWalikelas()">
                 <div class="tape-deco" style="background:var(--coral); opacity:0.8;"></div>
                 <div style="display:flex; gap:20px; align-items:center;">
                     <div style="width:100px; height:100px; border:2px solid black; overflow:hidden;">
-                        <img src="0.jpg">
+                        <img src="0.jpg" style="width:100%; height:100%; object-fit:cover;">
                     </div>
                     <div>
                         <h2 style="font-family:var(--font-pixel); font-size:1.8rem; color:black;">WALI KELAS</h2>
@@ -222,7 +224,7 @@
                 </div>
             </div>`;
 
-        // RENDER PROFILES (Menggunakan 1.jpg sampai 30.jpg sesuai screenshot)
+        // RENDER PROFILES
         const pGrid = document.getElementById('profile-grid');
         studentData.forEach((s, i) => {
             let num = i + 1;
@@ -237,84 +239,15 @@
                 </div>`;
         });
 
-        // RENDER MOMENTS (Menggunakan moment1.jpeg sampai moment57.jpeg sesuai screenshot)
+        // RENDER MOMENTS (Menyembunyikan Detail Lahir & Cita-Cita)
         const mGrid = document.getElementById('moment-grid');
         for(let i=1; i<=57; i++) {
             let rot = Math.floor(Math.random() * 10) - 5;
             let imgName = `moment${i}.jpeg`;
             mGrid.innerHTML += `
-                <div class="scrap-card" style="transform: rotate(${rot}deg)" onclick="showModal('${imgName}', 'MOMENT', '-', '-', 'Kenangan Elite SNAP_${i}')">
+                <div class="scrap-card" style="transform: rotate(${rot}deg)" onclick="showModal('${imgName}', 'KENANGAN ELITE', '', '', 'SNAPSHOT #${i}')">
                     <div class="tape-deco"></div>
                     <div class="card-frame">
                         <img src="${imgName}" loading="lazy">
                     </div>
-                    <p style="text-align:right; font-family:var(--font-pixel);">SNAP_${i}</p>
-                </div>`;
-        }
-
-        // FUNCTIONS
-        function toggleMusic() {
-            const audio = document.getElementById('bgm');
-            const icon = document.getElementById('music-icon');
-            const text = document.getElementById('music-text');
-            if(audio.paused) { 
-                audio.play(); icon.innerText = "🎸"; text.innerText = "AUDIO: ON";
-            } else { 
-                audio.pause(); icon.innerText = "🔇"; text.innerText = "AUDIO: OFF";
-            }
-        }
-
-        function showPage(id) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active-tab'));
-            document.getElementById('tab' + id.charAt(0).toUpperCase() + id.slice(1)).classList.add('active-tab');
-            window.scrollTo(0,0);
-        }
-
-        function openProfile(idx, img) {
-            const s = studentData[idx];
-            showModal(img, s.name, s.birth, s.dream, s.quote);
-        }
-
-        function openWalikelas() {
-            showModal('0.jpg', waliKelas.name, waliKelas.birth, waliKelas.dream, waliKelas.quote);
-        }
-
-        function showModal(img, title, birth, dream, quote) {
-            document.getElementById('m-img').src = img;
-            document.getElementById('m-title').innerText = title;
-            document.getElementById('m-birth').innerText = birth;
-            document.getElementById('m-dream').innerText = dream;
-            document.getElementById('m-quote').innerText = quote;
-            document.getElementById('modal').style.display = 'flex';
-        }
-
-        function closeZoom() { document.getElementById('modal').style.display = 'none'; }
-
-        function filterProfiles() {
-            let input = document.getElementById('searchBar').value.toLowerCase();
-            let items = document.querySelectorAll('.profile-item');
-            let found = false;
-            items.forEach(item => {
-                if(item.getAttribute('data-name').includes(input)) {
-                    item.style.display = "block"; found = true;
-                } else {
-                    item.style.display = "none";
-                }
-            });
-            document.getElementById('empty-message').style.display = found ? "none" : "block";
-        }
-
-        // BUBBLES ANIMATION
-        for(let i=0; i<15; i++) {
-            let b = document.createElement('div'); b.className = 'bubble';
-            b.style.width = b.style.height = (Math.random()*20+5)+'px';
-            b.style.left = Math.random()*100+'%';
-            b.style.animationDuration = (Math.random()*5+5)+'s';
-            b.style.animationDelay = Math.random()*5+'s';
-            document.body.appendChild(b);
-        }
-    </script>
-</body>
-</html>
+                    <p style="text-align:
