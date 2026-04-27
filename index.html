@@ -102,7 +102,7 @@
     <div class="fish" style="top:70%; animation: swim-right 40s linear infinite;">🦑</div>
 
     <audio id="bgm" loop>
-        <source src="https://files.catbox.moe/kbe70o.mp3" type="audio/mpeg">
+        <source src="https://www.dropbox.com/scl/fi/f0v53f47l2p0q7068k7g5/sheila-on-7-dan.mp3?rlkey=oayl8vun9y5l652z4w3i9v4p9&dl=1" type="audio/mpeg">
     </audio>
 
     <div id="music-container" onclick="toggleMusic()">
@@ -268,13 +268,25 @@
 
         function closeZoom() { document.getElementById('modal').style.display = 'none'; }
 
-        // AUDIO
+        // AUDIO - Perbaikan Fungsi Click
         function toggleMusic() {
             const audio = document.getElementById('bgm');
             const icon = document.getElementById('music-icon');
             const text = document.getElementById('music-text');
-            if(audio.paused) { audio.play(); icon.innerText = "🎸"; text.innerText = "AUDIO: ON"; }
-            else { audio.pause(); icon.innerText = "🔇"; text.innerText = "AUDIO: OFF"; }
+            
+            if (audio.paused) {
+                audio.play().then(() => {
+                    icon.innerText = "🎸";
+                    text.innerText = "AUDIO: ON";
+                }).catch(e => {
+                    console.log("Gagal putar lagu:", e);
+                    alert("Klik layar dulu, lalu coba nyalakan lagi audionya!");
+                });
+            } else {
+                audio.pause();
+                icon.innerText = "🔇";
+                text.innerText = "AUDIO: OFF";
+            }
         }
 
         function filterProfiles() {
@@ -282,6 +294,16 @@
             document.querySelectorAll('.profile-item').forEach(item => {
                 item.style.display = item.getAttribute('data-name').includes(input) ? "block" : "none";
             });
+        }
+
+        // BUBBLES ANIMATION
+        for(let i=0; i<15; i++) {
+            let b = document.createElement('div'); b.className = 'bubble';
+            b.style.width = b.style.height = (Math.random()*20+5)+'px';
+            b.style.left = Math.random()*100+'%';
+            b.style.animationDuration = (Math.random()*5+5)+'s';
+            b.style.animationDelay = Math.random()*5+'s';
+            document.body.appendChild(b);
         }
     </script>
 </body>
