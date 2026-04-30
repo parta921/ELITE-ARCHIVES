@@ -75,20 +75,13 @@
         @media (max-width: 700px) { .grid { grid-template-columns: repeat(2, 1fr); } }
 
         .scrap-card {
-            background: #fff; border: 2px solid #000; 
-            padding: 10px 10px 38px 10px; /* Ditambah ruang sedikit di bawah */
+            background: #fff; border: 2px solid #000; padding: 10px 10px 30px 10px;
             position: relative; transition: 0.3s; cursor: pointer; color: black;
             background-image: linear-gradient(#e5e5e5 1px, transparent 1px), linear-gradient(90deg, #e5e5e5 1px, transparent 1px);
             background-size: 15px 15px; box-shadow: 6px 6px 0px rgba(0,0,0,0.2);
         }
-        .card-frame { 
-            background: #000; aspect-ratio: 1/1; border: 2px solid black; 
-            margin-bottom: 15px; overflow: hidden; 
-        }
-        .card-frame img { 
-            width: 100%; height: 100%; object-fit: cover; 
-            object-position: top; /* Fokus ke atas agar wajah tidak kepotong */
-        }
+        .card-frame { background: #000; aspect-ratio: 1/1; border: 2px solid black; margin-bottom: 15px; overflow: hidden; }
+        .card-frame img { width: 100%; height: 100%; object-fit: cover; }
         .tape-deco { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); width: 60px; height: 20px; background: rgba(148, 210, 189, 0.6); border-left: 2px dashed rgba(0,0,0,0.1); border-right: 2px dashed rgba(0,0,0,0.1); }
 
         /* --- MODAL --- */
@@ -104,7 +97,15 @@
             display: flex; flex-direction: column; gap: 10px;
             box-shadow: 10px 10px 0px var(--coral);
         }
-        #m-img { width: 100%; height: auto; max-height: 250px; object-fit: cover; border: 3px solid black; flex-shrink: 0; }
+        #m-img { 
+            width: 100%; 
+            height: auto; 
+            max-height: 250px; 
+            object-fit: cover; 
+            object-position: top; /* Memastikan bagian atas/kepala tidak terpotong */
+            border: 3px solid black; 
+            flex-shrink: 0; 
+        }
         .detail-line { text-align: left; border-top: 2px dashed black; padding-top: 10px; font-size: 0.9rem; word-wrap: break-word; overflow-wrap: break-word; }
         #m-quote-container { margin-top: 10px; padding: 12px; background: rgba(0,0,0,0.07); border-left: 4px solid var(--coral); font-style: italic; font-size: 0.95rem; line-height: 1.5; text-align: left; }
         .close-btn { width: 100%; margin-top: 15px; background: black; color: white; padding: 12px; border: none; cursor: pointer; font-family: var(--font-pixel); font-size: 1.2rem; flex-shrink: 0; }
@@ -216,7 +217,7 @@
             <div class="scrap-card" style="max-width:350px; margin: 0 auto 30px;" onclick="openWk()">
                 <div class="tape-deco" style="background:var(--coral);"></div>
                 <div style="display:flex; gap:15px; align-items:center;">
-                    <img src="0.jpg" style="width:60px; height:60px; border:2px solid black; object-fit:cover; object-position:top;">
+                    <img src="0.jpg" style="width:60px; height:60px; border:2px solid black; object-fit:cover;">
                     <div><h2 style="font-family:var(--font-pixel); font-size:1.2rem;">WALI KELAS</h2><p style="font-size:0.8rem;">OK Yudistira Wibawa P.</p></div>
                 </div>
             </div>`;
@@ -224,27 +225,22 @@
         const pGrid = document.getElementById('profile-grid');
         studentData.forEach((s, i) => {
             let rot = Math.floor(Math.random() * 6) - 3;
-            
-            // Logika khusus untuk Adam (Index 0) agar tidak kepotong
-            let khususAdamImg = (i === 0) ? 'style="object-fit: contain; background: #f0f0f0;"' : '';
-            let khususAdamFrame = (i === 0) ? 'style="aspect-ratio: 4/5;"' : '';
-
             pGrid.innerHTML += `
                 <div class="scrap-card profile-item" data-name="${s.name.toLowerCase()}" style="transform: rotate(${rot}deg)" onclick="openStudent(${i})">
                     <div class="tape-deco"></div>
-                    <div class="card-frame" ${khususAdamFrame}><img src="${i+1}.jpg" loading="lazy" ${khususAdamImg}></div>
+                    <div class="card-frame"><img src="${i+1}.jpg" loading="lazy"></div>
                     <p style="font-family:var(--font-pixel); font-size:0.85rem; line-height:1.2;">${s.name}</p>
                 </div>`;
         });
 
-        // --- MOMENTS LOADER ---
+        // --- MOMENTS LOADER (Sekarang sampai 63) ---
         const mGrid = document.getElementById('moment-grid');
         for(let i=1; i<=63; i++) {
             let rot = Math.floor(Math.random() * 8) - 4;
             mGrid.innerHTML += `
                 <div class="scrap-card" style="transform: rotate(${rot}deg)" onclick="openMoment('moment${i}.jpeg', ${i})">
                     <div class="tape-deco"></div>
-                    <div class="card-frame"><img src="moment${i}.jpeg" loading="lazy" onerror="this.src='https://placehold.co/400?text=ELITE+PHOTO'"></div>
+                    <div class="card-frame"><img src="moment${i}.jpeg" loading="lazy" onerror="this.src='https://placehold.co/400?text=Wait+Photo...'"></div>
                     <p style="text-align:right; font-family:var(--font-pixel); font-size:0.8rem;">#${i}</p>
                 </div>`;
         }
@@ -282,7 +278,7 @@
             if (audio.paused) {
                 audio.play().then(() => {
                     icon.innerText = "🎸"; text.innerText = "AUDIO: ON";
-                }).catch(e => alert("Ketuk layar!"));
+                }).catch(e => alert("Ketuk layar terlebih dahulu!"));
             } else {
                 audio.pause(); icon.innerText = "🔇"; text.innerText = "AUDIO: OFF";
             }
