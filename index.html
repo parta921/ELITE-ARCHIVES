@@ -7,10 +7,10 @@
     <link href="https://fonts.googleapis.com/css2?family=VT323&family=DotGothic16&display=swap" rel="stylesheet">
     <style>
         :root {
-            --deep-blue: #000814;
-            --ocean-blue: #001d3d;
-            --mid-blue: #003566;
-            --cyan: #94d2bd;
+            --deep-sea: #001219;
+            --ocean-blue: #003049;
+            --midnight-blue: #005f73;
+            --cyan-sea: #94d2bd;
             --coral: #ff4d6d;
             --sand: #e9d8a6;
             --font-pixel: 'VT323', monospace;
@@ -19,19 +19,19 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body { 
-            background-color: var(--deep-blue);
+            background-color: var(--deep-sea);
             color: var(--sand);
             font-family: 'DotGothic16', sans-serif;
             overflow-x: hidden;
-            /* Warna Biru Laut yang lebih cerah untuk HP */
-            background: linear-gradient(180deg, var(--ocean-blue) 0%, var(--mid-blue) 50%, var(--deep-blue) 100%);
+            /* Gradasi Deep Sea: Biru Samudera yang tetap terlihat di HP */
+            background: linear-gradient(180deg, #002147 0%, #001219 100%);
             background-attachment: fixed;
             min-height: 100vh;
         }
 
         /* --- DECORATIONS --- */
-        .fish { position: fixed; font-size: 2.5rem; z-index: 1; opacity: 0.35; pointer-events: none; }
-        @keyframes swim-right { from { transform: translateX(-150px) scaleX(-1); } to { transform: translateX(110vw) scaleX(-1); } }
+        .fish { position: fixed; font-size: 2rem; z-index: 1; opacity: 0.3; pointer-events: none; }
+        @keyframes swim-right { from { transform: translateX(-100px) scaleX(-1); } to { transform: translateX(110vw) scaleX(-1); } }
         
         .bubble {
             position: fixed; bottom: -50px; background: rgba(255, 255, 255, 0.1);
@@ -41,11 +41,10 @@
 
         /* --- MUSIC PLAYER --- */
         #music-container {
-            position: fixed; bottom: 100px; right: 20px; z-index: 2000;
+            position: fixed; bottom: 90px; right: 20px; z-index: 2000;
             background: var(--sand); border: 4px double black; padding: 8px 12px;
             cursor: pointer; font-family: var(--font-pixel); box-shadow: 4px 4px 0px var(--coral);
             display: flex; align-items: center; gap: 8px; color: black; transition: 0.2s;
-            font-size: 1.1rem;
         }
 
         /* --- NAVIGATION --- */
@@ -72,7 +71,7 @@
         main { padding: 30px 5% 150px; position: relative; z-index: 10; }
         .page { display: none; }
         .page.active { display: block; animation: fadeIn 0.5s ease; }
-        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
         @media (max-width: 1024px) { .grid { grid-template-columns: repeat(3, 1fr); } }
         @media (max-width: 700px) { .grid { grid-template-columns: repeat(2, 1fr); } }
 
@@ -86,19 +85,22 @@
         .card-frame img { width: 100%; height: 100%; object-fit: cover; }
         .tape-deco { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); width: 60px; height: 20px; background: rgba(148, 210, 189, 0.6); border-left: 2px dashed rgba(0,0,0,0.1); border-right: 2px dashed rgba(0,0,0,0.1); }
 
-        /* --- MODAL (POP-UP) PERBAIKAN UNTUK HP --- */
+        /* --- MODAL (POP-UP) BISA SCROLL --- */
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.9); z-index: 3000; justify-content: center; align-items: center;
-            padding: 20px;
+            padding: 10px;
         }
         .modal-content { 
             background: var(--sand); border: 5px solid black; padding: 15px; 
-            max-width: 340px; width: 100%; color: black; text-align: center; 
-            max-height: 90vh; overflow-y: auto; position: relative;
+            max-width: 330px; width: 100%; color: black; text-align: center; 
+            max-height: 85vh; /* Batasi tinggi agar tidak lewat layar */
+            overflow-y: auto; /* Bikin pop-up bisa di-scroll kalau kepanjangan */
+            position: relative;
+            scrollbar-width: thin;
         }
         #m-img { 
-            width: 100%; max-height: 250px; object-fit: cover; 
+            width: 100%; max-height: 220px; object-fit: cover; 
             border: 3px solid black; margin-bottom: 10px; 
         }
         .detail-line { text-align: left; border-top: 2px dashed black; margin-top: 10px; padding-top: 8px; font-size: 0.85rem; }
@@ -108,8 +110,8 @@
 </head>
 <body>
 
-    <div class="fish" style="top:10%; animation: swim-right 22s linear infinite;">🐠</div>
-    <div class="fish" style="top:50%; animation: swim-right 35s linear infinite;">🐡</div>
+    <div class="fish" style="top:15%; animation: swim-right 25s linear infinite;">🐠</div>
+    <div class="fish" style="top:65%; animation: swim-right 35s linear infinite;">🐡</div>
 
     <!-- AUDIO SOURCE -->
     <audio id="bgm" loop>
@@ -141,7 +143,7 @@
                         </div>
                     </div>
                 </div>
-                <h1 style="font-family: var(--font-pixel); font-size: 3rem; color: var(--cyan); text-shadow: 3px 3px 0px var(--coral), 5px 5px 0px black; text-align:center;">THE DEEP ARCHIVE</h1>
+                <h1 style="font-family: var(--font-pixel); font-size: 3rem; color: var(--cyan-sea); text-shadow: 3px 3px 0px var(--coral), 5px 5px 0px black; text-align:center;">THE DEEP ARCHIVE</h1>
             </div>
         </section>
 
@@ -169,7 +171,7 @@
                     <p><strong>Lahir:</strong> <span id="m-birth"></span></p>
                     <p><strong>Cita-cita:</strong> <span id="m-dream"></span></p>
                 </div>
-                <div style="margin-top:8px; padding:8px; background:rgba(0,0,0,0.05); border-left:4px solid var(--coral); font-style:italic; font-size: 0.8rem;">
+                <div style="margin-top:10px; padding:10px; background:rgba(0,0,0,0.05); border-left:4px solid var(--coral); font-style:italic; font-size: 0.9rem; line-height: 1.4;">
                     "<span id="m-quote"></span>"
                 </div>
             </div>
@@ -179,40 +181,40 @@
 
     <script>
         const studentData = [
-            { name: "Adam Natha Utama Sembiring", birth: "12 Des 2010", dream: "Engineering", quote: "Jika hidupmu hanya mengikuti arus..." },
-            { name: "Amira Raisyah Putri", birth: "27 Feb 2011", dream: "Business Woman", quote: "Trust your journey..." },
-            { name: "Ariqah Salsabila Nasution", birth: "6 Jun 2011", dream: "Hakim", quote: "Don't let 365 days be bad..." },
-            { name: "Athaya Syakira", birth: "14 Sep 2010", dream: "Investor", quote: "Jadilah baik untuk dirimu sendiri..." },
-            { name: "Ayesha Navila", birth: "3 Feb 2011", dream: "Figure Skater", quote: "Orang yang melihat terlalu banyak..." },
-            { name: "Bianca Syifa Kaleela", birth: "30 Jun 2011", dream: "Dokter", quote: "You can't change the way people..." },
-            { name: "Chaira Nabila Hafit", birth: "13 Jan 2012", dream: "Songwriter", quote: "Believe you can..." },
-            { name: "Chalisa Zhafira Perdana", birth: "23 Jul 2011", dream: "Designer", quote: "Thankyou for being the victim..." },
-            { name: "Dhiyaz Farshad", birth: "24 Mar 2011", dream: "Psikolog Klinis", quote: "Learn from people..." },
-            { name: "Domuan Raja Siregar", birth: "13 Sep 2011", dream: "Dokter", quote: "Selalu berusaha dan berdoa..." },
-            { name: "Fachri Pratama Sutowo", birth: "13 Jun 2010", dream: "Dosen", quote: "Apa yang untukmu..." },
-            { name: "Faris Mumtaz Lesmana", birth: "2 Jun 2011", dream: "IPDN", quote: "Berhasil atau gagal, rayakanlah..." },
-            { name: "Farizqy Muhammad Al Hasby", birth: "15 Des 2011", dream: "Pengusaha", quote: "Jangan biarkan ketakutan..." },
-            { name: "Fasya Yasmin", birth: "5 Mar 2011", dream: "Pengusaha", quote: "Hidup adalah tentang menghargai..." },
-            { name: "Fatiha Syahira Lubis", birth: "17 Jul 2011", dream: "Businesswoman", quote: "Slow but steady..." },
-            { name: "Fawwaz Rizieq Abqory", birth: "24 Jun 2011", dream: "Dokpol", quote: "Kegagalan adalah tahap proses..." },
-            { name: "Nayra Azzahra", birth: "17 Agu 2011", dream: "CEO", quote: "Thankyou for being part..." },
-            { name: "Noura Aqilah A. Hsb", birth: "30 Sep 2010", dream: "Pengusaha", quote: "Hatred is an easier word..." },
-            { name: "Raihanah Azahra", birth: "22 Agu 2011", dream: "Apoteker", quote: "Memories don't ask permission..." },
-            { name: "Rakayla Aseika", birth: "3 Jul 2011", dream: "Pengusaha", quote: "If you fail once..." },
-            { name: "Raudhatul Andila", birth: "10 Jan 2011", dream: "-", quote: "Chase that dream..." },
-            { name: "Riffat Pangeran Fateen", birth: "6 Des 2011", dream: "Musisi", quote: "Orang mendatangi makanan..." },
-            { name: "Rizky Maulana", birth: "11 Okt 2011", dream: "Bisnismen", quote: "Capek itu wajar..." },
-            { name: "Shidiq Arifin Partadisastra", birth: "13 Nov 2010", dream: "CEO", quote: "Don’t let the shadows..." },
-            { name: "Sultan Alif Ramdani", birth: "6 Jul 2011", dream: "Pengusaha", quote: "Diam dan fokus bekerja..." },
-            { name: "Syaamil Maulana Ibrahim", birth: "11 Feb 2011", dream: "Character Designer", quote: "Tenang bukan berarti lemah." },
-            { name: "T.M. Azka Putra", birth: "13 Mei 2011", dream: "Pengusaha", quote: "Jika belum menemukan orang baik..." },
-            { name: "Vira Amalia", birth: "21 Sep 2010", dream: "Pelukis", quote: "People only hear..." },
-            { name: "Zaqiya Shafa Humaira", birth: "23 Agu 2011", dream: "Mangaka", quote: "Create your own lore." },
-            { name: "Zayyan Kaisan Musdan", birth: "5 Mei 2011", dream: "Perkantoran", quote: "Jika ingin dihargai..." }
+            { name: "Adam Natha Utama Sembiring", birth: "12 Des 2010", dream: "Engineering", quote: "Jika hidupmu hanya mengikuti arus, kamu tidak akan tahu di mana puncaknya." },
+            { name: "Amira Raisyah Putri", birth: "27 Feb 2011", dream: "Business Woman", quote: "Trust your journey, everyone has their own timeline." },
+            { name: "Ariqah Salsabila Nasution", birth: "6 Jun 2011", dream: "Hakim", quote: "Don't let 365 days be bad, just because 5 minutes went wrong." },
+            { name: "Athaya Syakira", birth: "14 Sep 2010", dream: "Investor", quote: "Jadilah baik untuk dirimu sendiri, baru untuk orang lain." },
+            { name: "Ayesha Navila", birth: "3 Feb 2011", dream: "Figure Skater", quote: "Orang yang melihat terlalu banyak ke belakang tidak akan bisa maju." },
+            { name: "Bianca Syifa Kaleela", birth: "30 Jun 2011", dream: "Dokter", quote: "You can't change the way people treat you, but you can change how you react." },
+            { name: "Chaira Nabila Hafit", birth: "13 Jan 2012", dream: "Songwriter", quote: "Believe you can and you're halfway there." },
+            { name: "Chalisa Zhafira Perdana", birth: "23 Jul 2011", dream: "Designer", quote: "Thankyou for being the victim of my success one day." },
+            { name: "Dhiyaz Farshad", birth: "24 Mar 2011", dream: "Psikolog Klinis", quote: "Learn from people who have been where you want to be." },
+            { name: "Domuan Raja Siregar", birth: "13 Sep 2011", dream: "Dokter", quote: "Selalu berusaha dan berdoa agar semua impian tercapai." },
+            { name: "Fachri Pratama Sutowo", birth: "13 Jun 2010", dream: "Dosen", quote: "Apa yang untukmu tidak akan melewatkanmu." },
+            { name: "Faris Mumtaz Lesmana", birth: "2 Jun 2011", dream: "IPDN", quote: "Berhasil atau gagal, rayakanlah usahamu hari ini." },
+            { name: "Farizqy Muhammad Al Hasby", birth: "15 Des 2011", dream: "Pengusaha", quote: "Jangan biarkan ketakutan menghalangimu mencoba hal baru." },
+            { name: "Fasya Yasmin", birth: "5 Mar 2011", dream: "Pengusaha", quote: "Hidup adalah tentang menghargai setiap momen kecil bersama mereka." },
+            { name: "Fatiha Syahira Lubis", birth: "17 Juli 2011", dream: "Businesswoman", quote: "Slow but steady wins the race." },
+            { name: "Fawwaz Rizieq Abqory", birth: "24 Juni 2011", dream: "Dokpol", quote: "Kegagalan adalah tahap proses menuju kesuksesan yang nyata." },
+            { name: "Nayra Azzahra", birth: "17 Agustus 2011", dream: "CEO", quote: "Thankyou for being part of my memory in this blue archive." },
+            { name: "Noura Aqilah A. Hsb", birth: "30 September 2010", dream: "Pengusaha", quote: "Hatred is an easier word than understanding, but understanding is better." },
+            { name: "Raihanah Azahra", birth: "22 Agustus 2011", dream: "Apoteker", quote: "Memories don't ask permission to come, they just arrive." },
+            { name: "Rakayla Aseika", birth: "3 Juli 2011", dream: "Pengusaha", quote: "If you fail once, try again until the world knows your name." },
+            { name: "Raudhatul Andila", birth: "10 Januari 2011", dream: "-", quote: "Chase that dream as far as the ocean goes." },
+            { name: "Riffat Pangeran Fateen", birth: "6 Desember 2011", dream: "Musisi", quote: "Orang mendatangi makanan, bukan sebaliknya." },
+            { name: "Rizky Maulana", birth: "11 Oktober 2011", dream: "Bisnismen", quote: "Capek itu wajar, menyerah itu yang jangan sampai kejadian." },
+            { name: "Shidiq Arifin Partadisastra", birth: "13 November 2010", dream: "CEO", quote: "Don’t let the shadows of yesterday spoil the sunshine of tomorrow." },
+            { name: "Sultan Alif Ramdani", birth: "6 Juli 2011", dream: "Pengusaha", quote: "Diam dan fokus bekerja sampai hasilnya yang berbicara." },
+            { name: "Syaamil Maulana Ibrahim", birth: "11 Februari 2011", dream: "Character Designer", quote: "Tenang bukan berarti lemah, ombak yang tenang menyimpan kekuatan." },
+            { name: "T.M. Azka Putra", birth: "13 Mei 2011", dream: "Pengusaha", quote: "Jika belum menemukan orang baik, jadilah salah satunya." },
+            { name: "Vira Amalia", birth: "21 September 2010", dream: "Pelukis", quote: "People only hear what they want to hear." },
+            { name: "Zaqiya Shafa Humaira", birth: "23 Agustus 2011", dream: "Mangaka", quote: "Create your own lore in this massive world." },
+            { name: "Zayyan Kaisan Musdan", birth: "5 Mei 2011", dream: "Perkantoran", quote: "Jika ingin dihargai, mulailah dengan menghargai waktu." }
         ];
 
         document.getElementById('walikelas-container').innerHTML = `
-            <div class="scrap-card" style="max-width:400px; margin: 0 auto 30px;" onclick="openWk()">
+            <div class="scrap-card" style="max-width:350px; margin: 0 auto 30px;" onclick="openWk()">
                 <div class="tape-deco" style="background:var(--coral);"></div>
                 <div style="display:flex; gap:15px; align-items:center;">
                     <img src="0.jpg" style="width:60px; height:60px; border:2px solid black; object-fit:cover;">
@@ -227,7 +229,7 @@
                 <div class="scrap-card profile-item" data-name="${s.name.toLowerCase()}" style="transform: rotate(${rot}deg)" onclick="openStudent(${i})">
                     <div class="tape-deco"></div>
                     <div class="card-frame"><img src="${i+1}.jpg" loading="lazy"></div>
-                    <p style="font-family:var(--font-pixel); font-size:0.8rem; line-height:1;">${s.name}</p>
+                    <p style="font-family:var(--font-pixel); font-size:0.85rem; line-height:1.2;">${s.name}</p>
                 </div>`;
         });
 
@@ -262,6 +264,7 @@
             document.getElementById('m-quote').innerText = quote;
             document.getElementById('m-info-personal').style.display = showInfo ? "block" : "none";
             document.getElementById('modal').style.display = 'flex';
+            document.querySelector('.modal-content').scrollTop = 0; // Reset scroll ke atas
         }
 
         function closeZoom() { document.getElementById('modal').style.display = 'none'; }
@@ -273,7 +276,7 @@
             if (audio.paused) {
                 audio.play().then(() => {
                     icon.innerText = "🎸"; text.innerText = "AUDIO: ON";
-                }).catch(e => alert("Klik layar dulu baru nyalakan musik!"));
+                }).catch(e => alert("Tap layar dulu baru nyalakan musik!"));
             } else {
                 audio.pause(); icon.innerText = "🔇"; text.innerText = "AUDIO: OFF";
             }
@@ -286,7 +289,7 @@
             });
         }
 
-        for(let i=0; i<10; i++) {
+        for(let i=0; i<12; i++) {
             let b = document.createElement('div'); b.className = 'bubble';
             b.style.width = b.style.height = (Math.random()*15+5)+'px';
             b.style.left = Math.random()*100+'%';
