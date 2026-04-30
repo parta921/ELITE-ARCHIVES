@@ -9,6 +9,7 @@
         :root {
             --deep-blue: #000814;
             --ocean-blue: #001d3d;
+            --mid-blue: #003566;
             --cyan: #94d2bd;
             --coral: #ff4d6d;
             --sand: #e9d8a6;
@@ -22,10 +23,13 @@
             color: var(--sand);
             font-family: 'DotGothic16', sans-serif;
             overflow-x: hidden;
-            background-image: radial-gradient(circle at center, transparent, rgba(0,0,0,0.8));
+            /* Warna Biru Laut yang lebih cerah untuk HP */
+            background: linear-gradient(180deg, var(--ocean-blue) 0%, var(--mid-blue) 50%, var(--deep-blue) 100%);
             background-attachment: fixed;
+            min-height: 100vh;
         }
 
+        /* --- DECORATIONS --- */
         .fish { position: fixed; font-size: 2.5rem; z-index: 1; opacity: 0.35; pointer-events: none; }
         @keyframes swim-right { from { transform: translateX(-150px) scaleX(-1); } to { transform: translateX(110vw) scaleX(-1); } }
         
@@ -35,66 +39,79 @@
         }
         @keyframes rise { from { transform: translateY(0); opacity: 0.5; } to { transform: translateY(-110vh); opacity: 0; } }
 
+        /* --- MUSIC PLAYER --- */
         #music-container {
             position: fixed; bottom: 100px; right: 20px; z-index: 2000;
-            background: var(--sand); border: 4px double black; padding: 10px 15px;
-            cursor: pointer; font-family: var(--font-pixel); box-shadow: 6px 6px 0px var(--coral);
-            display: flex; align-items: center; gap: 10px; color: black; transition: 0.2s;
+            background: var(--sand); border: 4px double black; padding: 8px 12px;
+            cursor: pointer; font-family: var(--font-pixel); box-shadow: 4px 4px 0px var(--coral);
+            display: flex; align-items: center; gap: 8px; color: black; transition: 0.2s;
+            font-size: 1.1rem;
         }
 
+        /* --- NAVIGATION --- */
         nav {
-            position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
-            display: flex; gap: 10px; z-index: 1000; width: 95%; max-width: 500px;
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            display: flex; gap: 8px; z-index: 1000; width: 95%; max-width: 500px;
         }
         .nav-tab {
-            background: var(--sand); border: 3px solid black; padding: 10px;
-            font-family: var(--font-pixel); font-size: 1.4rem; color: black;
-            cursor: pointer; box-shadow: 5px 5px 0px var(--coral); transition: 0.3s; flex: 1; text-align: center;
+            background: var(--sand); border: 3px solid black; padding: 10px 5px;
+            font-family: var(--font-pixel); font-size: 1.2rem; color: black;
+            cursor: pointer; box-shadow: 4px 4px 0px var(--coral); transition: 0.3s; flex: 1; text-align: center;
         }
-        .nav-tab:hover, .active-tab { background: var(--coral); color: white; transform: translateY(-5px); }
+        .nav-tab:hover, .active-tab { background: var(--coral); color: white; transform: translateY(-3px); }
 
-        .search-container { margin: 20px auto 40px; width: 100%; max-width: 600px; text-align: center; }
+        /* --- SEARCH --- */
+        .search-container { margin: 20px auto 30px; width: 100%; max-width: 600px; text-align: center; }
         .search-input {
-            width: 90%; padding: 15px; border: 4px solid black;
-            background: var(--sand); font-family: var(--font-pixel); font-size: 1.8rem; outline: none;
-            box-shadow: 6px 6px 0px var(--ocean-blue);
+            width: 90%; padding: 12px; border: 4px solid black;
+            background: var(--sand); font-family: var(--font-pixel); font-size: 1.5rem; outline: none;
+            box-shadow: 5px 5px 0px var(--ocean-blue);
         }
 
-        main { padding: 40px 5% 150px; position: relative; z-index: 10; }
+        /* --- GRID & CARDS --- */
+        main { padding: 30px 5% 150px; position: relative; z-index: 10; }
         .page { display: none; }
         .page.active { display: block; animation: fadeIn 0.5s ease; }
-        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; }
+        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
         @media (max-width: 1024px) { .grid { grid-template-columns: repeat(3, 1fr); } }
         @media (max-width: 700px) { .grid { grid-template-columns: repeat(2, 1fr); } }
 
         .scrap-card {
-            background: #fff; border: 2px solid #000; padding: 15px 15px 40px 15px;
-            position: relative; transition: 0.4s; cursor: pointer; color: black;
+            background: #fff; border: 2px solid #000; padding: 10px 10px 30px 10px;
+            position: relative; transition: 0.3s; cursor: pointer; color: black;
             background-image: linear-gradient(#e5e5e5 1px, transparent 1px), linear-gradient(90deg, #e5e5e5 1px, transparent 1px);
-            background-size: 15px 15px; box-shadow: 8px 8px 0px rgba(0,0,0,0.2);
+            background-size: 15px 15px; box-shadow: 6px 6px 0px rgba(0,0,0,0.2);
         }
-        .scrap-card:hover { transform: scale(1.05) !important; z-index: 100; box-shadow: 12px 12px 0px var(--cyan); }
-        .card-frame { background: #000; aspect-ratio: 1/1; border: 2px solid black; margin-bottom: 20px; overflow: hidden; }
+        .card-frame { background: #000; aspect-ratio: 1/1; border: 2px solid black; margin-bottom: 15px; overflow: hidden; }
         .card-frame img { width: 100%; height: 100%; object-fit: cover; }
-        .tape-deco { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 80px; height: 25px; background: rgba(148, 210, 189, 0.6); border-left: 2px dashed rgba(0,0,0,0.1); border-right: 2px dashed rgba(0,0,0,0.1); }
+        .tape-deco { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); width: 60px; height: 20px; background: rgba(148, 210, 189, 0.6); border-left: 2px dashed rgba(0,0,0,0.1); border-right: 2px dashed rgba(0,0,0,0.1); }
 
+        /* --- MODAL (POP-UP) PERBAIKAN UNTUK HP --- */
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95); z-index: 3000; justify-content: center; align-items: center;
+            background: rgba(0,0,0,0.9); z-index: 3000; justify-content: center; align-items: center;
+            padding: 20px;
         }
-        .modal-content { background: var(--sand); border: 6px solid black; padding: 30px; max-width: 450px; width: 90%; color: black; text-align: center; }
-        .detail-line { text-align: left; border-top: 2px dashed black; margin-top: 15px; padding-top: 10px; font-size: 0.9rem; }
+        .modal-content { 
+            background: var(--sand); border: 5px solid black; padding: 15px; 
+            max-width: 340px; width: 100%; color: black; text-align: center; 
+            max-height: 90vh; overflow-y: auto; position: relative;
+        }
+        #m-img { 
+            width: 100%; max-height: 250px; object-fit: cover; 
+            border: 3px solid black; margin-bottom: 10px; 
+        }
+        .detail-line { text-align: left; border-top: 2px dashed black; margin-top: 10px; padding-top: 8px; font-size: 0.85rem; }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
     </style>
 </head>
 <body>
 
     <div class="fish" style="top:10%; animation: swim-right 22s linear infinite;">🐠</div>
-    <div class="fish" style="top:40%; animation: swim-right 28s linear infinite;">🐡</div>
-    <div class="fish" style="top:70%; animation: swim-right 40s linear infinite;">🦑</div>
+    <div class="fish" style="top:50%; animation: swim-right 35s linear infinite;">🐡</div>
 
+    <!-- AUDIO SOURCE -->
     <audio id="bgm" loop>
         <source src="lagu_sheila.mp3" type="audio/mpeg">
     </audio>
@@ -112,95 +129,94 @@
     <main>
         <section id="home" class="page active">
             <div style="min-height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                <div style="width: 100%; max-width: 450px; margin-bottom: 40px; padding: 0 20px;">
-                    <div class="scrap-card" style="transform: rotate(-1deg); padding-bottom: 50px;">
-                        <div class="tape-deco" style="background: rgba(255, 77, 109, 0.6); width: 120px;"></div>
-                        <div class="card-frame" style="aspect-ratio: 16/9; height: auto;">
+                <div style="width: 100%; max-width: 400px; margin-bottom: 30px; padding: 0 20px;">
+                    <div class="scrap-card" style="transform: rotate(-1deg);">
+                        <div class="tape-deco" style="background: rgba(255, 77, 109, 0.6); width: 100px;"></div>
+                        <div class="card-frame" style="aspect-ratio: 16/9;">
                             <img src="cover.jpeg">
                         </div>
-                        <div style="font-family: var(--font-pixel); text-align: center; margin-top: 15px;">
-                            <p style="font-size: 1.8rem;">[ KELUARGA BESAR ELITE ]</p>
-                            <p style="font-size: 0.9rem; opacity: 0.7;">"Dan kau bisikkan kata bahagia..."</p>
+                        <div style="font-family: var(--font-pixel); text-align: center; margin-top: 10px;">
+                            <p style="font-size: 1.5rem;">[ KELUARGA BESAR ELITE ]</p>
+                            <p style="font-size: 0.8rem; opacity: 0.7;">"Dan kau bisikkan kata bahagia..."</p>
                         </div>
                     </div>
                 </div>
-                <h1 style="font-family: var(--font-pixel); font-size: clamp(3rem, 8vw, 5rem); color: var(--cyan); text-shadow: 4px 4px 0px var(--coral), 7px 7px 0px black; text-align:center;">THE DEEP ARCHIVE</h1>
-                <div style="margin-top: 30px; animation: float 3s infinite; font-size: 2.5rem;">⚓</div>
+                <h1 style="font-family: var(--font-pixel); font-size: 3rem; color: var(--cyan); text-shadow: 3px 3px 0px var(--coral), 5px 5px 0px black; text-align:center;">THE DEEP ARCHIVE</h1>
             </div>
         </section>
 
         <section id="moment" class="page">
-            <h2 style="font-family:var(--font-pixel); font-size:3rem; text-align:center; margin-bottom:40px; color:var(--coral);">#SNAPSHOTS</h2>
+            <h2 style="font-family:var(--font-pixel); font-size:2.5rem; text-align:center; margin-bottom:30px; color:var(--coral);">#SNAPSHOTS</h2>
             <div class="grid" id="moment-grid"></div>
         </section>
 
         <section id="profile" class="page">
             <div id="walikelas-container"></div>
             <div class="search-container">
-                <input type="text" class="search-input" id="searchBar" placeholder="Cari nama penyelam..." onkeyup="filterProfiles()">
+                <input type="text" class="search-input" id="searchBar" placeholder="Cari nama..." onkeyup="filterProfiles()">
             </div>
             <div class="grid" id="profile-grid"></div>
-            <div id="empty-message" style="text-align:center; margin-top:20px; display:none; font-family:var(--font-pixel); font-size:2rem;">DATA TIDAK DITEMUKAN</div>
         </section>
     </main>
 
+    <!-- MODAL -->
     <div id="modal" class="modal" onclick="closeZoom()">
         <div class="modal-content" onclick="event.stopPropagation()">
-            <img id="m-img" src="" style="width:100%; border:3px solid black; margin-bottom:15px;">
-            <h2 id="m-title" style="font-family:var(--font-pixel); font-size:2rem; color:var(--coral);"></h2>
-            <div id="m-detail-box" class="detail-line">
+            <img id="m-img" src="">
+            <h2 id="m-title" style="font-family:var(--font-pixel); font-size:1.6rem; color:var(--coral);"></h2>
+            <div class="detail-line">
                 <div id="m-info-personal">
                     <p><strong>Lahir:</strong> <span id="m-birth"></span></p>
                     <p><strong>Cita-cita:</strong> <span id="m-dream"></span></p>
                 </div>
-                <div style="margin-top:10px; padding:10px; background:rgba(0,0,0,0.05); border-left:4px solid var(--coral); font-style:italic;">
+                <div style="margin-top:8px; padding:8px; background:rgba(0,0,0,0.05); border-left:4px solid var(--coral); font-style:italic; font-size: 0.8rem;">
                     "<span id="m-quote"></span>"
                 </div>
             </div>
-            <button onclick="closeZoom()" style="width:100%; margin-top:20px; background:black; color:white; padding:10px; border:none; cursor:pointer; font-family:var(--font-pixel);">[ KEMBALI ]</button>
+            <button onclick="closeZoom()" style="width:100%; margin-top:15px; background:black; color:white; padding:12px; border:none; cursor:pointer; font-family:var(--font-pixel); font-size:1.2rem;">[ KEMBALI ]</button>
         </div>
     </div>
 
     <script>
         const studentData = [
-            { name: "Adam Natha Utama Sembiring", birth: "12 Desember 2010", dream: "Engineering", quote: "Jika hidupmu hanya mengikuti arus..." },
-            { name: "Amira Raisyah Putri", birth: "27 Februari 2011", dream: "Business Woman", quote: "Trust your journey..." },
-            { name: "Ariqah Salsabila Nasution", birth: "6 Juni 2011", dream: "Hakim", quote: "Don't let 365 days be bad..." },
-            { name: "Athaya Syakira", birth: "14 September 2010", dream: "Investor", quote: "Jadilah baik untuk dirimu sendiri..." },
-            { name: "Ayesha Navila", birth: "3 Februari 2011", dream: "Figure Skater", quote: "Orang yang melihat terlalu banyak..." },
-            { name: "Bianca Syifa Kaleela", birth: "30 Juni 2011", dream: "Dokter", quote: "You can't change the way people..." },
-            { name: "Chaira Nabila Hafit", birth: "13 Januari 2012", dream: "Songwriter", quote: "Believe you can..." },
-            { name: "Chalisa Zhafira Perdana", birth: "23 Juli 2011", dream: "Designer", quote: "Thankyou for being the victim..." },
-            { name: "Dhiyaz Farshad", birth: "24 Maret 2011", dream: "Psikolog Klinis", quote: "Learn from people..." },
-            { name: "Domuan Raja Siregar", birth: "13 September 2011", dream: "Dokter", quote: "Selalu berusaha dan berdoa..." },
-            { name: "Fachri Pratama Sutowo", birth: "13 Juni 2010", dream: "Dosen", quote: "Apa yang untukmu..." },
-            { name: "Faris Mumtaz Lesmana", birth: "2 Juni 2011", dream: "IPDN", quote: "Berhasil atau gagal, rayakanlah..." },
-            { name: "Farizqy Muhammad Al Hasby", birth: "15 Desember 2011", dream: "Pengusaha", quote: "Jangan biarkan ketakutan..." },
-            { name: "Fasya Yasmin", birth: "5 Maret 2011", dream: "Pengusaha", quote: "Hidup adalah tentang menghargai..." },
-            { name: "Fatiha Syahira Lubis", birth: "17 Juli 2011", dream: "Businesswoman", quote: "Slow but steady..." },
-            { name: "Fawwaz Rizieq Abqory", birth: "24 Juni 2011", dream: "Dokpol", quote: "Kegagalan adalah tahap proses..." },
-            { name: "Nayra Azzahra", birth: "17 Agustus 2011", dream: "CEO", quote: "Thankyou for being part..." },
-            { name: "Noura Aqilah A. Hsb", birth: "30 September 2010", dream: "Pengusaha", quote: "Hatred is an easier word..." },
-            { name: "Raihanah Azahra", birth: "22 Agustus 2011", dream: "Apoteker", quote: "Memories don't ask permission..." },
-            { name: "Rakayla Aseika", birth: "03 Juli 2011", dream: "Pengusaha", quote: "If you fail once..." },
-            { name: "Raudhatul Andila", birth: "10 Januari 2011", dream: "-", quote: "Chase that dream..." },
-            { name: "Riffat Pangeran Fateen", birth: "6 Desember 2011", dream: "Musisi", quote: "Orang mendatangi makanan..." },
-            { name: "Rizky Maulana", birth: "11 Oktober 2011", dream: "Bisnismen", quote: "Capek itu wajar..." },
-            { name: "Shidiq Arifin Partadisastra", birth: "13 November 2010", dream: "CEO", quote: "Don’t let the shadows..." },
-            { name: "Sultan Alif Ramdani", birth: "06 Juli 2011", dream: "Pengusaha", quote: "Diam dan fokus bekerja..." },
-            { name: "Syaamil Maulana Ibrahim", birth: "11 Februari 2011", dream: "Character Designer", quote: "Tenang bukan berarti lemah." },
+            { name: "Adam Natha Utama Sembiring", birth: "12 Des 2010", dream: "Engineering", quote: "Jika hidupmu hanya mengikuti arus..." },
+            { name: "Amira Raisyah Putri", birth: "27 Feb 2011", dream: "Business Woman", quote: "Trust your journey..." },
+            { name: "Ariqah Salsabila Nasution", birth: "6 Jun 2011", dream: "Hakim", quote: "Don't let 365 days be bad..." },
+            { name: "Athaya Syakira", birth: "14 Sep 2010", dream: "Investor", quote: "Jadilah baik untuk dirimu sendiri..." },
+            { name: "Ayesha Navila", birth: "3 Feb 2011", dream: "Figure Skater", quote: "Orang yang melihat terlalu banyak..." },
+            { name: "Bianca Syifa Kaleela", birth: "30 Jun 2011", dream: "Dokter", quote: "You can't change the way people..." },
+            { name: "Chaira Nabila Hafit", birth: "13 Jan 2012", dream: "Songwriter", quote: "Believe you can..." },
+            { name: "Chalisa Zhafira Perdana", birth: "23 Jul 2011", dream: "Designer", quote: "Thankyou for being the victim..." },
+            { name: "Dhiyaz Farshad", birth: "24 Mar 2011", dream: "Psikolog Klinis", quote: "Learn from people..." },
+            { name: "Domuan Raja Siregar", birth: "13 Sep 2011", dream: "Dokter", quote: "Selalu berusaha dan berdoa..." },
+            { name: "Fachri Pratama Sutowo", birth: "13 Jun 2010", dream: "Dosen", quote: "Apa yang untukmu..." },
+            { name: "Faris Mumtaz Lesmana", birth: "2 Jun 2011", dream: "IPDN", quote: "Berhasil atau gagal, rayakanlah..." },
+            { name: "Farizqy Muhammad Al Hasby", birth: "15 Des 2011", dream: "Pengusaha", quote: "Jangan biarkan ketakutan..." },
+            { name: "Fasya Yasmin", birth: "5 Mar 2011", dream: "Pengusaha", quote: "Hidup adalah tentang menghargai..." },
+            { name: "Fatiha Syahira Lubis", birth: "17 Jul 2011", dream: "Businesswoman", quote: "Slow but steady..." },
+            { name: "Fawwaz Rizieq Abqory", birth: "24 Jun 2011", dream: "Dokpol", quote: "Kegagalan adalah tahap proses..." },
+            { name: "Nayra Azzahra", birth: "17 Agu 2011", dream: "CEO", quote: "Thankyou for being part..." },
+            { name: "Noura Aqilah A. Hsb", birth: "30 Sep 2010", dream: "Pengusaha", quote: "Hatred is an easier word..." },
+            { name: "Raihanah Azahra", birth: "22 Agu 2011", dream: "Apoteker", quote: "Memories don't ask permission..." },
+            { name: "Rakayla Aseika", birth: "3 Jul 2011", dream: "Pengusaha", quote: "If you fail once..." },
+            { name: "Raudhatul Andila", birth: "10 Jan 2011", dream: "-", quote: "Chase that dream..." },
+            { name: "Riffat Pangeran Fateen", birth: "6 Des 2011", dream: "Musisi", quote: "Orang mendatangi makanan..." },
+            { name: "Rizky Maulana", birth: "11 Okt 2011", dream: "Bisnismen", quote: "Capek itu wajar..." },
+            { name: "Shidiq Arifin Partadisastra", birth: "13 Nov 2010", dream: "CEO", quote: "Don’t let the shadows..." },
+            { name: "Sultan Alif Ramdani", birth: "6 Jul 2011", dream: "Pengusaha", quote: "Diam dan fokus bekerja..." },
+            { name: "Syaamil Maulana Ibrahim", birth: "11 Feb 2011", dream: "Character Designer", quote: "Tenang bukan berarti lemah." },
             { name: "T.M. Azka Putra", birth: "13 Mei 2011", dream: "Pengusaha", quote: "Jika belum menemukan orang baik..." },
-            { name: "Vira Amalia", birth: "21 September 2010", dream: "Pelukis", quote: "People only hear..." },
-            { name: "Zaqiya Shafa Humaira", birth: "23 Agustus 2011", dream: "Mangaka", quote: "Create your own lore." },
+            { name: "Vira Amalia", birth: "21 Sep 2010", dream: "Pelukis", quote: "People only hear..." },
+            { name: "Zaqiya Shafa Humaira", birth: "23 Agu 2011", dream: "Mangaka", quote: "Create your own lore." },
             { name: "Zayyan Kaisan Musdan", birth: "5 Mei 2011", dream: "Perkantoran", quote: "Jika ingin dihargai..." }
         ];
 
         document.getElementById('walikelas-container').innerHTML = `
-            <div class="scrap-card" style="max-width:500px; margin: 0 auto 50px;" onclick="openWk()">
+            <div class="scrap-card" style="max-width:400px; margin: 0 auto 30px;" onclick="openWk()">
                 <div class="tape-deco" style="background:var(--coral);"></div>
-                <div style="display:flex; gap:20px; align-items:center;">
-                    <img src="0.jpg" style="width:80px; height:80px; border:2px solid black; object-fit:cover;">
-                    <div><h2 style="font-family:var(--font-pixel);">WALI KELAS</h2><p>OK Yudistira Wibawa P.</p></div>
+                <div style="display:flex; gap:15px; align-items:center;">
+                    <img src="0.jpg" style="width:60px; height:60px; border:2px solid black; object-fit:cover;">
+                    <div><h2 style="font-family:var(--font-pixel); font-size:1.2rem;">WALI KELAS</h2><p style="font-size:0.8rem;">OK Yudistira Wibawa P.</p></div>
                 </div>
             </div>`;
 
@@ -211,18 +227,18 @@
                 <div class="scrap-card profile-item" data-name="${s.name.toLowerCase()}" style="transform: rotate(${rot}deg)" onclick="openStudent(${i})">
                     <div class="tape-deco"></div>
                     <div class="card-frame"><img src="${i+1}.jpg" loading="lazy"></div>
-                    <p style="font-family:var(--font-pixel); font-size:0.9rem;">${s.name}</p>
+                    <p style="font-family:var(--font-pixel); font-size:0.8rem; line-height:1;">${s.name}</p>
                 </div>`;
         });
 
         const mGrid = document.getElementById('moment-grid');
         for(let i=1; i<=57; i++) {
-            let rot = Math.floor(Math.random() * 10) - 5;
+            let rot = Math.floor(Math.random() * 8) - 4;
             mGrid.innerHTML += `
                 <div class="scrap-card" style="transform: rotate(${rot}deg)" onclick="openMoment('moment${i}.jpeg', ${i})">
                     <div class="tape-deco"></div>
                     <div class="card-frame"><img src="moment${i}.jpeg" loading="lazy"></div>
-                    <p style="text-align:right; font-family:var(--font-pixel);">SNAP_${i}</p>
+                    <p style="text-align:right; font-family:var(--font-pixel); font-size:0.8rem;">#${i}</p>
                 </div>`;
         }
 
@@ -236,7 +252,7 @@
 
         function openWk() { setupModal('0.jpg', 'OK Yudistira Wibawa P.', '22 Juni 1998', 'Guru', 'Jika tidak bisa taat, jangan bunuh iman mu dengan maksiat', true); }
         function openStudent(idx) { const s = studentData[idx]; setupModal((idx+1)+'.jpg', s.name, s.birth, s.dream, s.quote, true); }
-        function openMoment(img, num) { setupModal(img, 'KENANGAN ELITE', '', '', 'SNAPSHOT #' + num, false); }
+        function openMoment(img, num) { setupModal(img, 'MOMENT', '', '', 'SNAPSHOT #' + num, false); }
 
         function setupModal(img, title, birth, dream, quote, showInfo) {
             document.getElementById('m-img').src = img;
@@ -257,7 +273,7 @@
             if (audio.paused) {
                 audio.play().then(() => {
                     icon.innerText = "🎸"; text.innerText = "AUDIO: ON";
-                }).catch(e => alert("Klik layar sekali, lalu nyalakan musiknya!"));
+                }).catch(e => alert("Klik layar dulu baru nyalakan musik!"));
             } else {
                 audio.pause(); icon.innerText = "🔇"; text.innerText = "AUDIO: OFF";
             }
@@ -270,12 +286,11 @@
             });
         }
 
-        for(let i=0; i<15; i++) {
+        for(let i=0; i<10; i++) {
             let b = document.createElement('div'); b.className = 'bubble';
-            b.style.width = b.style.height = (Math.random()*20+5)+'px';
+            b.style.width = b.style.height = (Math.random()*15+5)+'px';
             b.style.left = Math.random()*100+'%';
             b.style.animationDuration = (Math.random()*5+5)+'s';
-            b.style.animationDelay = Math.random()*5+'s';
             document.body.appendChild(b);
         }
     </script>
