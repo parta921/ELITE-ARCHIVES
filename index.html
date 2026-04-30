@@ -102,7 +102,6 @@
             height: auto; 
             max-height: 250px; 
             object-fit: cover; 
-            object-position: top; /* Memastikan bagian atas/kepala tidak terpotong */
             border: 3px solid black; 
             flex-shrink: 0; 
         }
@@ -233,7 +232,7 @@
                 </div>`;
         });
 
-        // --- MOMENTS LOADER (Sekarang sampai 63) ---
+        // --- MOMENTS LOADER ---
         const mGrid = document.getElementById('moment-grid');
         for(let i=1; i<=63; i++) {
             let rot = Math.floor(Math.random() * 8) - 4;
@@ -255,16 +254,38 @@
         }
 
         function openWk() { setupModal('0.jpg', 'OK Yudistira Wibawa P.', '22 Juni 1998', 'Guru', 'Jika tidak bisa taat, jangan bunuh iman mu dengan maksiat', true); }
-        function openStudent(idx) { const s = studentData[idx]; setupModal((idx+1)+'.jpg', s.name, s.birth, s.dream, s.quote, true); }
+        
+        function openStudent(idx) { 
+            const s = studentData[idx]; 
+            setupModal((idx+1)+'.jpg', s.name, s.birth, s.dream, s.quote, true); 
+        }
+
         function openMoment(img, num) { setupModal(img, 'MOMENT', '', '', 'SNAPSHOT #' + num, false); }
 
         function setupModal(img, title, birth, dream, quote, showInfo) {
-            document.getElementById('m-img').src = img;
+            const modalImg = document.getElementById('m-img');
+            modalImg.src = img;
             document.getElementById('m-title').innerText = title;
             document.getElementById('m-birth').innerText = birth;
             document.getElementById('m-dream').innerText = dream;
             document.getElementById('m-quote').innerText = quote;
             document.getElementById('m-info-personal').style.display = showInfo ? "block" : "none";
+
+            // LOGIKA POSISI FOTO:
+            // Daftar nama yang ingin dikembalikan ke posisi 'center' (tengah)
+            const listCenter = ["fasya", "adam", "nayra", "noura", "rakayla", "raudhatul", "riffat", "rizky", "shidiq", "zaqiya"];
+            const lowerTitle = title.toLowerCase();
+            
+            // Cek apakah judul mengandung salah satu nama di atas
+            let shouldCenter = listCenter.some(name => lowerTitle.includes(name));
+
+            if (shouldCenter) {
+                modalImg.style.objectPosition = "center";
+            } else {
+                // Selain nama di atas (seperti Fachri, Dhiyaz, dll) tetap fokus 'top' agar kepala tidak terpotong
+                modalImg.style.objectPosition = "top";
+            }
+
             document.getElementById('modal').style.display = 'flex';
             document.querySelector('.modal-content').scrollTop = 0; 
         }
