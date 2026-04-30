@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=VT323&family=DotGothic16&display=swap" rel="stylesheet">
     <style>
         :root {
+            /* Palette Biru Laut Dalam */
             --deep-sea: #001219;
             --ocean-blue: #003049;
             --midnight-blue: #005f73;
@@ -23,7 +24,7 @@
             color: var(--sand);
             font-family: 'DotGothic16', sans-serif;
             overflow-x: hidden;
-            /* Gradasi Deep Sea: Biru Samudera yang tetap terlihat di HP */
+            /* Gradasi agar tidak terlihat hitam polos di HP */
             background: linear-gradient(180deg, #002147 0%, #001219 100%);
             background-attachment: fixed;
             min-height: 100vh;
@@ -85,38 +86,55 @@
         .card-frame img { width: 100%; height: 100%; object-fit: cover; }
         .tape-deco { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); width: 60px; height: 20px; background: rgba(148, 210, 189, 0.6); border-left: 2px dashed rgba(0,0,0,0.1); border-right: 2px dashed rgba(0,0,0,0.1); }
 
-        /* --- MODAL (POP-UP) BISA SCROLL --- */
+        /* --- MODAL CSS (SCROLLABLE & NO-CUT) --- */
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.9); z-index: 3000; justify-content: center; align-items: center;
-            padding: 10px;
+            padding: 15px;
         }
         .modal-content { 
-            background: var(--sand); border: 5px solid black; padding: 15px; 
-            max-width: 330px; width: 100%; color: black; text-align: center; 
-            max-height: 85vh; /* Batasi tinggi agar tidak lewat layar */
-            overflow-y: auto; /* Bikin pop-up bisa di-scroll kalau kepanjangan */
+            background: var(--sand); border: 5px solid black; padding: 20px; 
+            max-width: 350px; width: 100%; color: black; text-align: center; 
+            max-height: 85vh; /* Batasi tinggi maksimal */
+            overflow-y: auto; /* Aktifkan scroll vertikal */
             position: relative;
-            scrollbar-width: thin;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            box-shadow: 10px 10px 0px var(--coral);
         }
         #m-img { 
-            width: 100%; max-height: 220px; object-fit: cover; 
-            border: 3px solid black; margin-bottom: 10px; 
+            width: 100%; height: auto; max-height: 250px; object-fit: cover; 
+            border: 3px solid black; flex-shrink: 0;
         }
-        .detail-line { text-align: left; border-top: 2px dashed black; margin-top: 10px; padding-top: 8px; font-size: 0.85rem; }
+        .detail-line { 
+            text-align: left; border-top: 2px dashed black; 
+            padding-top: 10px; font-size: 0.9rem;
+            word-wrap: break-word; /* Bungkus kata panjang */
+            overflow-wrap: break-word;
+        }
+        #m-quote-container {
+            margin-top: 10px; padding: 12px; background: rgba(0,0,0,0.07); 
+            border-left: 4px solid var(--coral); font-style: italic; 
+            font-size: 0.95rem; line-height: 1.5; 
+            text-align: left;
+        }
+        .close-btn {
+            width: 100%; margin-top: 15px; background: black; color: white; 
+            padding: 12px; border: none; cursor: pointer; 
+            font-family: var(--font-pixel); font-size: 1.2rem; flex-shrink: 0;
+        }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
+    <!-- DECO ELEMENTS -->
     <div class="fish" style="top:15%; animation: swim-right 25s linear infinite;">🐠</div>
     <div class="fish" style="top:65%; animation: swim-right 35s linear infinite;">🐡</div>
 
-    <!-- AUDIO SOURCE -->
-    <audio id="bgm" loop>
-        <source src="lagu_sheila.mp3" type="audio/mpeg">
-    </audio>
+    <audio id="bgm" loop><source src="lagu_sheila.mp3" type="audio/mpeg"></audio>
 
     <div id="music-container" onclick="toggleMusic()">
         <span id="music-icon">🔇</span> <span id="music-text">AUDIO: OFF</span>
@@ -129,14 +147,13 @@
     </nav>
 
     <main>
+        <!-- HOME -->
         <section id="home" class="page active">
             <div style="min-height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
                 <div style="width: 100%; max-width: 400px; margin-bottom: 30px; padding: 0 20px;">
                     <div class="scrap-card" style="transform: rotate(-1deg);">
                         <div class="tape-deco" style="background: rgba(255, 77, 109, 0.6); width: 100px;"></div>
-                        <div class="card-frame" style="aspect-ratio: 16/9;">
-                            <img src="cover.jpeg">
-                        </div>
+                        <div class="card-frame" style="aspect-ratio: 16/9;"><img src="cover.jpeg"></div>
                         <div style="font-family: var(--font-pixel); text-align: center; margin-top: 10px;">
                             <p style="font-size: 1.5rem;">[ KELUARGA BESAR ELITE ]</p>
                             <p style="font-size: 0.8rem; opacity: 0.7;">"Dan kau bisikkan kata bahagia..."</p>
@@ -147,11 +164,13 @@
             </div>
         </section>
 
+        <!-- MOMENTS -->
         <section id="moment" class="page">
             <h2 style="font-family:var(--font-pixel); font-size:2.5rem; text-align:center; margin-bottom:30px; color:var(--coral);">#SNAPSHOTS</h2>
             <div class="grid" id="moment-grid"></div>
         </section>
 
+        <!-- PROFILES -->
         <section id="profile" class="page">
             <div id="walikelas-container"></div>
             <div class="search-container">
@@ -165,17 +184,17 @@
     <div id="modal" class="modal" onclick="closeZoom()">
         <div class="modal-content" onclick="event.stopPropagation()">
             <img id="m-img" src="">
-            <h2 id="m-title" style="font-family:var(--font-pixel); font-size:1.6rem; color:var(--coral);"></h2>
+            <h2 id="m-title" style="font-family:var(--font-pixel); font-size:1.8rem; color:var(--coral);"></h2>
             <div class="detail-line">
                 <div id="m-info-personal">
                     <p><strong>Lahir:</strong> <span id="m-birth"></span></p>
                     <p><strong>Cita-cita:</strong> <span id="m-dream"></span></p>
                 </div>
-                <div style="margin-top:10px; padding:10px; background:rgba(0,0,0,0.05); border-left:4px solid var(--coral); font-style:italic; font-size: 0.9rem; line-height: 1.4;">
+                <div id="m-quote-container">
                     "<span id="m-quote"></span>"
                 </div>
             </div>
-            <button onclick="closeZoom()" style="width:100%; margin-top:15px; background:black; color:white; padding:12px; border:none; cursor:pointer; font-family:var(--font-pixel); font-size:1.2rem;">[ KEMBALI ]</button>
+            <button class="close-btn" onclick="closeZoom()">[ KEMBALI ]</button>
         </div>
     </div>
 
@@ -213,6 +232,7 @@
             { name: "Zayyan Kaisan Musdan", birth: "5 Mei 2011", dream: "Perkantoran", quote: "Jika ingin dihargai, mulailah dengan menghargai waktu." }
         ];
 
+        // Init Profiles
         document.getElementById('walikelas-container').innerHTML = `
             <div class="scrap-card" style="max-width:350px; margin: 0 auto 30px;" onclick="openWk()">
                 <div class="tape-deco" style="background:var(--coral);"></div>
@@ -233,6 +253,7 @@
                 </div>`;
         });
 
+        // Init Moments
         const mGrid = document.getElementById('moment-grid');
         for(let i=1; i<=57; i++) {
             let rot = Math.floor(Math.random() * 8) - 4;
@@ -244,6 +265,7 @@
                 </div>`;
         }
 
+        // Logic Functions
         function showPage(id) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(id).classList.add('active');
@@ -264,7 +286,7 @@
             document.getElementById('m-quote').innerText = quote;
             document.getElementById('m-info-personal').style.display = showInfo ? "block" : "none";
             document.getElementById('modal').style.display = 'flex';
-            document.querySelector('.modal-content').scrollTop = 0; // Reset scroll ke atas
+            document.querySelector('.modal-content').scrollTop = 0; 
         }
 
         function closeZoom() { document.getElementById('modal').style.display = 'none'; }
@@ -276,7 +298,7 @@
             if (audio.paused) {
                 audio.play().then(() => {
                     icon.innerText = "🎸"; text.innerText = "AUDIO: ON";
-                }).catch(e => alert("Tap layar dulu baru nyalakan musik!"));
+                }).catch(e => alert("Ketuk layar di mana saja terlebih dahulu agar browser mengizinkan audio!"));
             } else {
                 audio.pause(); icon.innerText = "🔇"; text.innerText = "AUDIO: OFF";
             }
@@ -289,11 +311,13 @@
             });
         }
 
-        for(let i=0; i<12; i++) {
+        // Bubbles effect
+        for(let i=0; i<15; i++) {
             let b = document.createElement('div'); b.className = 'bubble';
             b.style.width = b.style.height = (Math.random()*15+5)+'px';
             b.style.left = Math.random()*100+'%';
             b.style.animationDuration = (Math.random()*5+5)+'s';
+            b.style.animationDelay = (Math.random()*5)+'s';
             document.body.appendChild(b);
         }
     </script>
